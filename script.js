@@ -1,46 +1,27 @@
-// Надо объединить два массива
-const IP1 = [125, 375, 144, 755, 900];
-const IP2 = [2, 5, 1, 0, 81];
-//--выводим каждый из массивов
-console.log(IP1);
-console.log(IP2);
-//--так получится массив в котором будет 2 элемента - изначальные массивы
-const WRONG_TOTAL = [IP1, IP2];
-console.log(WRONG_TOTAL);
-// Реализация до ES6 (Array обязательно с большой буквы чтобы не спутали с названием переменной которой нет)
-// Array.prototype.push.apply(IP1, IP2);
-// console.log(IP1);
-
-
-// Надо создать общий объект со всеми свойствам из двух массивов
-console.log([...IP1, ...IP2]);
-
-const A = {
-	a: 'первая фича',
-	b: 'вторая фича',
-};
-const B = {
-	c: 'first focus',
-	d: 'focus on me',
-};
-const C = {
-	...A,
-	...B
-};
-console.log(C);
-
-
-//Есть массив и функция - нужно так вызвать функцию чтобы данные из массива стали аргументами этой функции 
-const ARR = [5, 7, 1, 3, 9];
-function sum(a,b,c, d, e){
-	return a+b+c+d+e;
+// Функция
+function nihao(name){
+	console.log('Привет '+name+'!');
+	console.log(`Hello ${name}!`);
 }
-console.log(sum(...ARR));
+nihao('Товарищ Максим');
 
 
-//Тут первые 2 аргумента будут отдельными а остальные 3 - в рамках массива (REST - можно назвать по-другому)
-function rest (arg1, arg2, ...REST)
-{
-	console.log(arg1, arg2, REST);
+// Многострочность
+function letter (login, pass, email){
+	return`
+		Здравствуйте, ${login}!
+		Вы успешно подали заявку на регистрацию у нас в системе.
+		Ваш пароль: ${pass}.
+		Сейчас Вам на почтовый ящик ${email} придет письмо активации Вашего аккаунта.
+	`
 }
-rest(1,2,3,4,5);
+console.log(letter ('Max', 'as33d3cd45', 'asd@asd.ru'));
+
+
+// Тегирование (тут смысл в том чтобы текст константы выделить жирным)
+const MUSIC = 'Punk Rock';
+console.log(boldText`Мне очень нравится ${MUSIC}`);
+function boldText(litArr, value){
+	console.log(litArr, value);
+	return litArr[0]+value.bold()+litArr[1];
+}
