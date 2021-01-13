@@ -1,38 +1,38 @@
-class Task {
-	constructor(title = 'название объекта'){
-		this.title = title,
-		this.done = false,
-		this.vall1 = 25,
-		this.vall2 = 31
-	}
-	finish(){
-		this.done = true;
-	}
+// Извлечение данных из массива - синтаксис ES5
+const books = ['Капитал', 'Манифест', 'Происхождение семьи, частной собственности и государства'];
+let Kapital = books[0];
+let Manifest = books[1];
+let Engels = books[2];
+console.log(Kapital, Manifest, Engels);
+
+// Извлечение данных из массива - синтаксис ES6
+const music = ['АУ', 'МТ', 'Ступа', 'Мураками', 'БП'];
+// --на конце пишется не произвольное название переменной а название массива
+let [Au, Mt, Stupa, Murakami, Bp] = music;
+console.log(Au, Mt, Stupa, Murakami, Bp);
+
+// let [Au, Mt, Stupa, Murakami, Bp] = ['АУ', 'МТ', 'Ступа', 'Мураками', 'БП'];
+
+
+// Присваивание значения по умолчанию
+const girls = ['Codi Vore', 'Sapphire Blue', 'Jessie June', ['Hitomi','Tanaka']];
+let [codi, sapphire, jessie, [hit, tan], other='и так далее'] = girls
+console.log(codi, sapphire, jessie, hit, tan, other);
+
+
+// Пример с функциями
+function calc_1([a, b]){
+	console.log(b/a);
 }
+calc_1([75, 57]);
 
 
-class SubTask extends Task{
-	constructor(title){
-		super (title)
-	}
-	finish(){
-		//вместо дублирования строки из метода в классе родителя можно написать так
-		super.finish();
-		console.log(`${this.title} выполнена`);
-	}
-	get calc(){
-		return this.vall2 / this.vall1;
-	}
+// Возврат нескольких значений
+function calc_2([a, b]){
+	return [a, b];
 }
-
-
-let task = new Task('главная задача');
-let subtask = new SubTask('подзадача');
-
-task.finish();
-subtask.finish();
-
-console.log(task);
-console.log(subtask);
-
-console.log(subtask.calc);
+let vals = calc_2([24, 42]);
+console.log(vals);
+// Вытаскивание значений из возвращаемого функцией массива
+let [x, y] = calc_2([91, 19]);
+console.log(x, y);
