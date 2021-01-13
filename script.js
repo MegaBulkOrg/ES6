@@ -1,38 +1,41 @@
-// Извлечение данных из массива - синтаксис ES5
-const books = ['Капитал', 'Манифест', 'Происхождение семьи, частной собственности и государства'];
-let Kapital = books[0];
-let Manifest = books[1];
-let Engels = books[2];
-console.log(Kapital, Manifest, Engels);
-
-// Извлечение данных из массива - синтаксис ES6
-const music = ['АУ', 'МТ', 'Ступа', 'Мураками', 'БП'];
-// --на конце пишется не произвольное название переменной а название массива
-let [Au, Mt, Stupa, Murakami, Bp] = music;
-console.log(Au, Mt, Stupa, Murakami, Bp);
-
-// let [Au, Mt, Stupa, Murakami, Bp] = ['АУ', 'МТ', 'Ступа', 'Мураками', 'БП'];
-
-
-// Присваивание значения по умолчанию
-const girls = ['Codi Vore', 'Sapphire Blue', 'Jessie June', ['Hitomi','Tanaka']];
-let [codi, sapphire, jessie, [hit, tan], other='и так далее'] = girls
-console.log(codi, sapphire, jessie, hit, tan, other);
-
-
-// Пример с функциями
-function calc_1([a, b]){
-	console.log(b/a);
+let persone = {
+	name: 'Pavlick',
+	age: 35,
+	address: {
+		city: 'Saint-Petersburg',
+		index: 197374
+	}
 }
-calc_1([75, 57]);
 
+// Тут используются фигурные скобки
+let {name, age} = persone;
+console.log(name, age);
 
-// Возврат нескольких значений
-function calc_2([a, b]){
-	return [a, b];
+// Дефолтные значения (справа от знака равенства находится пустой объект)
+let {job='it-web', hobby='pranks'} = {};
+console.log(job, hobby);
+
+// Если имена переменных отличаются от имен свойств объекта (тут синтаксис такой: имяСвойства:имяПеременной и если поменять их местами то будет ошибка)
+let {name:who, age:years} = persone;
+console.log(who, years);
+
+// Если массив многомерный
+let {address:{city, index, street='st. Ho Shi Min'}} = persone;
+console.log(city, index, street);
+
+// Использование деструктивного присваивания объекта в качестве параметра функции
+function getData({name, age}){
+	console.log(name, age);
 }
-let vals = calc_2([24, 42]);
-console.log(vals);
-// Вытаскивание значений из возвращаемого функцией массива
-let [x, y] = calc_2([91, 19]);
-console.log(x, y);
+getData(persone);
+
+// Использование деструктивного присваивания для возврата нескольких значений из функции
+function getInfo({name, age}){
+	return {name, age}
+}
+// -- из функции у нас вернулся объект
+let info = getInfo(persone);
+console.log(info);
+// -- значение свойств объекта присвоим в переменные
+let {name:mingzi, age:old} = getInfo(persone);
+console.log(mingzi, old);
