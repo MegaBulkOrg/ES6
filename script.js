@@ -1,30 +1,38 @@
-class myFirstJsClass {
-	constructor(name = myFirstJsClass.defTask(), work = 'без работы'){
-		this.who = name,
-		this.job = work,
-		myFirstJsClass.counter += 1
+class Task {
+	constructor(title = 'название объекта'){
+		this.title = title,
+		this.done = false,
+		this.vall1 = 25,
+		this.vall2 = 31
 	}
-	task_1(){
-		console.log(`My name is ${this.who} and I work in ${this.job}`);
-	}
-	static defTask(){
-		return 'Имя не указано';
-	}
-	get isDone(){
-		return 'Работа выполнена'
+	finish(){
+		this.done = true;
 	}
 }
-// Создание статического свойства (мы обращаетмя не к объекту а к классу)
-myFirstJsClass.staticVar = 'Lorem ipsum dolor sit amet';
-myFirstJsClass.counter = 0;
 
-let obj_1 = new myFirstJsClass('Poul','Web-development');
-console.log(obj_1);
-obj_1.task_1();
 
-let obj_2 = new myFirstJsClass('Константин Сёмин','агитация и пропаганда');
-console.log(myFirstJsClass.counter);
+class SubTask extends Task{
+	constructor(title){
+		super (title)
+	}
+	finish(){
+		//вместо дублирования строки из метода в классе родителя можно написать так
+		super.finish();
+		console.log(`${this.title} выполнена`);
+	}
+	get calc(){
+		return this.vall2 / this.vall1;
+	}
+}
 
-let obj_3 = new myFirstJsClass();
-console.log(obj_3);
-console.log(obj_3.isDone);
+
+let task = new Task('главная задача');
+let subtask = new SubTask('подзадача');
+
+task.finish();
+subtask.finish();
+
+console.log(task);
+console.log(subtask);
+
+console.log(subtask.calc);
