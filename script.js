@@ -1,49 +1,51 @@
-// Вариант с обещаниями: создаем обещание fetchData которое в случае успешного выполнения возвращает список имен. Сразу обещание выполняем.
-const fetchData = _ => Promise.resolve({
-	data: ['Тузин', 'Гномик', 'Степашка']
-})
-// Вариант с обещаниями: создаем метод getNamesData в котором вызываем обещание и отображаем полученные данные в консоли
-const getNamesData_p = _ => {
-	fetchData()
-		.then(data => {
-			console.log(data);
-			return 'сделано';
-		})
+/*
+	Для возможности использования объекта с циклом for...of нужно создать в нем свойство с названием Symbol.iterator.
+	При вызове метода Symbol.iterator итерируемый объект должен возвращать другой объект который умеет осуществлять перебор. Данный объект называет итератор.
+	ВАЖНО: у такого объекта обязательно должен быть метод "next" который при каждом вызове возвращает очередное значение и проверяет окончен ли перебор.
+*/
+
+
+// создаем объект
+let generateNumbers = {
+	start: 1,
+	end: 15
 }
-// Вариант с обещаниями: вызываем метод getNamesData
-getNamesData_p();
 
 
-//То же самое только с Async/Await
-const getNamesData_a = async _ => {
-	console.log(await fetchData());
-	return 'сделано';
+// делаем объект generateNumbers итерируемым
+generateNumbers[Symbol.iterator] = function(){
+	// создаем переменные current и last для того чтобы использовать их внутри данной функции
+	// -- ими мы будем определять интервалы которые нам нужно будет использовать
+	let current = this.start;
+	let last = this.end;
+	return {
+		next() {
+			if (current <= last) 
+			{
+				// открывающуюся фигурную скобку после return нужно писать вместе на одной строчке, иначе будет ошибка
+				return {
+					// свойство done помогает определить закончена ли итерация
+					done: false,
+					value: current++
+				}
+			}
+			else
+			{
+				return {
+					done: true
+				}	
+			}
+		}
+	}
 }
-getNamesData_a();
 
 
-// Async/Await: перехват ошибки
-const asd = _ => Promise.reject('не получилось');
-const func = async _ => {
-	try {console.log(await asd())}
-	catch(error) {console.log(error)}
+/*
+	К вновь созданному объекту generateNumbers (это уже обновленный объект со свойством Symbol.iterator) применим цикл for...of в котором выведем результат в консоль.
+	Цикл for...of в начале своего выполнения автоматически вызывает Symbol.iterator.
+	После этого он получает итератор и далее вызываем метод next до получения объекта со свойством done равным true.
+*/
+for (let number of generateNumbers)
+{
+	console.log(number);
 }
-func();
-
-
-// Сравнение подходов при вложенности обещаний: вариант с обещаниями
-const load_p = _ => {
-	Promise.resolve(47)
-		.then(a => {
-			Promise.resolve(74)
-				.then(b => console.log(b-a))
-		})
-}
-load_p();
-// Сравнение подходов при вложенности обещаний: вариант с Async/Await
-const load_a = async _ => {
-	const a = await Promise.resolve(47);
-	const b = await Promise.resolve(74);
-	console.log(b-a);
-}
-load_a();
